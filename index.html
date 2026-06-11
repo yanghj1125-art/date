@@ -24,58 +24,58 @@
 </head>
 <body class="min-h-screen bg-pink-50 text-gray-800 font-sans flex flex-col items-center py-2 sm:py-6 px-2 sm:px-4">
 
-  <!-- 최상단 헤더 & 공유 정보 -->
-  <div class="w-full max-w-4xl bg-white rounded-2xl shadow-sm p-3 sm:p-4 mb-4 sm:mb-6 flex flex-col md:flex-row justify-between items-center gap-3 sm:gap-4">
-    <div class="flex items-center gap-2 text-pink-500 font-bold text-lg sm:text-xl">
-      <i class="ph-fill ph-calendar-heart text-2xl sm:text-3xl"></i>
-      <span>우리의 스티커 캘린더</span>
-    </div>
-    
-    <div class="flex flex-col sm:flex-row items-center gap-2 sm:gap-3 w-full md:w-auto">
-      <div class="flex items-center justify-between sm:justify-start w-full sm:w-auto bg-pink-50 rounded-lg px-3 py-2">
-        <div class="flex items-center">
-          <span class="text-xs sm:text-sm text-gray-500 mr-2">캘린더 ID:</span>
-          <span id="display-calendar-id" class="font-mono font-bold text-pink-600 tracking-wider mr-3">7282</span>
-        </div>
-        <button id="copy-btn" class="flex items-center gap-1 text-xs bg-pink-200 text-pink-700 px-2 py-1 rounded hover:bg-pink-300 transition shrink-0 whitespace-nowrap">
-          <i class="ph ph-copy"></i> 초대 링크 복사
-        </button>
-      </div>
-
-      <form id="join-form" class="flex w-full sm:w-auto">
+  <!-- 비밀번호 잠금 화면 -->
+  <div id="lock-screen" class="fixed inset-0 bg-pink-50 z-[200] flex flex-col items-center justify-center px-4">
+    <div class="bg-white p-8 rounded-2xl shadow-xl max-w-sm w-full text-center">
+      <i class="ph-fill ph-lock-key text-5xl text-pink-400 mb-4 inline-block"></i>
+      <h2 class="text-xl font-bold text-gray-800 mb-2">비밀 캘린더</h2>
+      <p class="text-sm text-gray-500 mb-6">캘린더를 보려면 비밀번호를 입력하세요.</p>
+      <form id="password-form" class="flex flex-col gap-3">
         <input 
-          type="text" 
-          id="join-input"
-          placeholder="친구 ID 입력..." 
-          class="border border-gray-200 rounded-l-lg px-3 py-2 text-sm w-full sm:w-32 focus:outline-none focus:ring-2 focus:ring-pink-300 uppercase"
-          maxlength="10"
+          type="password" 
+          id="password-input" 
+          placeholder="비밀번호" 
+          class="border border-gray-200 rounded-xl px-4 py-3 text-center text-lg tracking-widest focus:outline-none focus:ring-2 focus:ring-pink-300"
+          autofocus
         />
-        <button type="submit" class="bg-gray-800 text-white px-3 py-2 text-sm rounded-r-lg hover:bg-gray-700 transition whitespace-nowrap">
-          이동
+        <button type="submit" class="bg-pink-500 text-white py-3 rounded-xl hover:bg-pink-600 transition font-bold text-lg shadow-md">
+          열기
         </button>
       </form>
     </div>
   </div>
 
-  <!-- 캘린더 메인 영역 -->
-  <div class="w-full max-w-4xl bg-white rounded-2xl shadow-lg overflow-hidden">
-    <!-- 달력 헤더 -->
-    <div class="flex items-center justify-between p-4 sm:p-6 bg-white border-b border-gray-100">
-      <button id="prev-month-btn" class="p-2 hover:bg-pink-50 rounded-full transition text-gray-600">
-        <i class="ph ph-caret-left text-2xl"></i>
-      </button>
-      <h2 id="month-year-display" class="text-xl sm:text-2xl font-bold text-gray-800">2024년 1월</h2>
-      <button id="next-month-btn" class="p-2 hover:bg-pink-50 rounded-full transition text-gray-600">
-        <i class="ph ph-caret-right text-2xl"></i>
-      </button>
+  <!-- 메인 앱 컨테이너 (초기 숨김) -->
+  <div id="main-app" class="hidden w-full max-w-4xl transition-opacity duration-500 opacity-0">
+    
+    <!-- 최상단 헤더 -->
+    <div class="w-full bg-white rounded-2xl shadow-sm p-4 sm:p-5 mb-4 sm:mb-6 flex justify-center items-center">
+      <div class="flex items-center gap-2 text-pink-500 font-bold text-xl sm:text-2xl">
+        <i class="ph-fill ph-calendar-heart text-3xl sm:text-4xl"></i>
+        <span>우리의 비밀 스티커 캘린더</span>
+      </div>
     </div>
 
-    <!-- 요일 헤더 -->
-    <div id="days-header" class="grid grid-cols-7 bg-gray-50 border-b border-gray-100"></div>
+    <!-- 캘린더 메인 영역 -->
+    <div class="w-full bg-white rounded-2xl shadow-lg overflow-hidden">
+      <!-- 달력 헤더 -->
+      <div class="flex items-center justify-between p-4 sm:p-6 bg-white border-b border-gray-100">
+        <button id="prev-month-btn" class="p-2 hover:bg-pink-50 rounded-full transition text-gray-600">
+          <i class="ph ph-caret-left text-2xl"></i>
+        </button>
+        <h2 id="month-year-display" class="text-xl sm:text-2xl font-bold text-gray-800">2024년 1월</h2>
+        <button id="next-month-btn" class="p-2 hover:bg-pink-50 rounded-full transition text-gray-600">
+          <i class="ph ph-caret-right text-2xl"></i>
+        </button>
+      </div>
 
-    <!-- 날짜 그리드 -->
-    <div id="calendar-grid" class="grid grid-cols-7 bg-gray-200 gap-px"></div>
-  </div>
+      <!-- 요일 헤더 -->
+      <div id="days-header" class="grid grid-cols-7 bg-gray-50 border-b border-gray-100"></div>
+
+      <!-- 날짜 그리드 -->
+      <div id="calendar-grid" class="grid grid-cols-7 bg-gray-200 gap-px"></div>
+    </div>
+  </div> <!-- 메인 앱 컨테이너 닫기 -->
 
   <!-- 일정 상세 모달 (기본 숨김) -->
   <div id="event-modal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm flex items-end sm:items-center justify-center sm:p-4 z-50">
@@ -116,8 +116,7 @@
             <button 
               type="submit"
               id="submit-event-btn"
-              disabled
-              class="bg-pink-500 text-white p-2 sm:p-3 rounded-xl hover:bg-pink-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition flex items-center justify-center min-w-[40px] sm:min-w-[48px]"
+              class="bg-pink-500 text-white p-2 sm:p-3 rounded-xl hover:bg-pink-600 transition flex items-center justify-center min-w-[40px] sm:min-w-[48px]"
             >
               <i class="ph ph-plus text-xl font-bold"></i>
             </button>
@@ -126,6 +125,10 @@
       </div>
 
     </div>
+  </div>
+
+  <!-- 에러/알림 토스트 메시지 -->
+  <div id="toast-message" class="fixed top-4 left-1/2 transform -translate-x-1/2 px-6 py-3 rounded-lg shadow-xl z-[100] hidden opacity-0 transition-opacity duration-300 pointer-events-none text-sm font-medium">
   </div>
 
   <script type="module">
@@ -158,15 +161,18 @@
     let events = [];
     let eventsByDate = {};
     let selectedDate = null; // 'YYYY-MM-DD'
-    let calendarId = "7282";
     let selectedSticker = STICKERS[0];
     let unsubscribeSnapshot = null;
+    let isUnlocked = false; // 잠금 해제 상태
+
+    // 내부적으로 고정된 캘린더 데이터베이스 ID (기존 데이터 유지)
+    const fixedCalendarId = "7282";
 
     // DOM 요소
-    const displayCalendarId = document.getElementById('display-calendar-id');
-    const copyBtn = document.getElementById('copy-btn');
-    const joinForm = document.getElementById('join-form');
-    const joinInput = document.getElementById('join-input');
+    const lockScreen = document.getElementById('lock-screen');
+    const mainApp = document.getElementById('main-app');
+    const passwordForm = document.getElementById('password-form');
+    const passwordInput = document.getElementById('password-input');
     
     const monthYearDisplay = document.getElementById('month-year-display');
     const prevMonthBtn = document.getElementById('prev-month-btn');
@@ -184,6 +190,21 @@
     const currentStickerDisplay = document.getElementById('current-sticker-display');
     const newEventText = document.getElementById('new-event-text');
     const submitEventBtn = document.getElementById('submit-event-btn');
+    const toastMessage = document.getElementById('toast-message');
+
+    // 토스트 메시지 표시 함수
+    const showToast = (msg, isSuccess = false) => {
+      toastMessage.textContent = msg;
+      toastMessage.className = `fixed top-4 left-1/2 transform -translate-x-1/2 px-6 py-3 rounded-lg shadow-xl z-[100] transition-opacity duration-300 pointer-events-none text-sm font-medium ${isSuccess ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`;
+      toastMessage.classList.remove('hidden');
+      // 약간의 지연 후 opacity 조절로 페이드인 효과
+      setTimeout(() => toastMessage.classList.remove('opacity-0'), 10);
+      
+      setTimeout(() => {
+        toastMessage.classList.add('opacity-0');
+        setTimeout(() => toastMessage.classList.add('hidden'), 300);
+      }, 3000);
+    };
 
     // 유틸리티: HTML 특수문자 이스케이프
     const escapeHTML = (str) => {
@@ -203,26 +224,20 @@
       return `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
     };
 
-    // URL 파라미터에서 캘린더 ID 읽기
-    const initCalendarId = () => {
-      const params = new URLSearchParams(window.location.search);
-      const idFromUrl = params.get('id');
-      if (idFromUrl) {
-        calendarId = idFromUrl.toUpperCase();
-      }
-      displayCalendarId.textContent = calendarId;
-    };
-
     // 초기화 및 렌더링
     const initApp = async () => {
-      initCalendarId();
       renderDaysHeader();
       renderStickerPicker();
       
       // Auth 초기화
       try {
         if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-          await signInWithCustomToken(auth, __initial_auth_token);
+          try {
+            await signInWithCustomToken(auth, __initial_auth_token);
+          } catch (e) {
+            console.warn('커스텀 토큰 실패, 익명 로그인으로 대체합니다.', e);
+            await signInAnonymously(auth);
+          }
         } else {
           await signInAnonymously(auth);
         }
@@ -232,7 +247,7 @@
 
       onAuthStateChanged(auth, (user) => {
         currentUser = user;
-        if (user) {
+        if (user && isUnlocked) {
           listenToEvents();
         }
       });
@@ -243,10 +258,10 @@
 
     // Firestore 실시간 리스너
     const listenToEvents = () => {
-      if (!currentUser) return;
+      if (!currentUser || !isUnlocked) return;
       if (unsubscribeSnapshot) unsubscribeSnapshot();
 
-      const eventsRef = collection(db, 'artifacts', appId, 'public', 'data', `shared_cal_${calendarId}`);
+      const eventsRef = collection(db, 'artifacts', appId, 'public', 'data', `shared_cal_${fixedCalendarId}`);
       
       unsubscribeSnapshot = onSnapshot(eventsRef, (snapshot) => {
         events = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
@@ -367,7 +382,6 @@
       selectedDate = null;
       eventModal.classList.add('hidden');
       newEventText.value = '';
-      submitEventBtn.disabled = true;
     };
 
     // 모달 내 일정 목록 렌더링
@@ -401,7 +415,7 @@
           const eventId = e.currentTarget.dataset.id;
           if (!currentUser) return;
           try {
-            const eventDocRef = doc(db, 'artifacts', appId, 'public', 'data', `shared_cal_${calendarId}`, eventId);
+            const eventDocRef = doc(db, 'artifacts', appId, 'public', 'data', `shared_cal_${fixedCalendarId}`, eventId);
             await deleteDoc(eventDocRef);
           } catch (error) {
             console.error("일정 삭제 에러:", error);
@@ -412,6 +426,23 @@
 
     // 이벤트 리스너 설정
     const setupEventListeners = () => {
+      // 비밀번호 폼 제출 (비밀번호: 7282)
+      passwordForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const pwd = passwordInput.value.trim();
+        if (pwd === "7282") {
+          lockScreen.classList.add('hidden');
+          mainApp.classList.remove('hidden');
+          setTimeout(() => mainApp.classList.remove('opacity-0'), 50); // 페이드인 효과
+          isUnlocked = true;
+          if (currentUser) listenToEvents(); // 잠금 해제 및 인증 시 데이터 로드
+        } else {
+          showToast('비밀번호가 틀렸습니다.');
+          passwordInput.value = '';
+          passwordInput.focus();
+        }
+      });
+
       // 달 이동
       prevMonthBtn.addEventListener('click', () => {
         currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1);
@@ -423,82 +454,34 @@
         renderCalendar();
       });
 
-      // 공유 링크 복사 (iframe 보안 에러 우회 처리)
-      copyBtn.addEventListener('click', () => {
-        let shareUrl = `${window.location.origin}${window.location.pathname}?id=${calendarId}`;
-        
-        // Canvas/Blob 환경과 같은 경우 복사할 URL 정리
-        if (window.location.protocol === 'blob:' || shareUrl.includes('usercontent.goog')) {
-          shareUrl = `https://우리-스티커-캘린더.앱/?id=${calendarId}`;
-        }
-
-        try {
-          // 최신 환경의 제한을 우회하기 위해 전통적인 DOM 요소 복사 기법 사용
-          const textArea = document.createElement("textarea");
-          textArea.value = shareUrl;
-          textArea.style.position = "fixed";
-          textArea.style.left = "-999999px";
-          document.body.appendChild(textArea);
-          textArea.focus();
-          textArea.select();
-          
-          const successful = document.execCommand('copy');
-          textArea.remove();
-
-          if (successful) {
-            const originalHTML = copyBtn.innerHTML;
-            copyBtn.innerHTML = '링크 복사됨!';
-            setTimeout(() => { copyBtn.innerHTML = originalHTML; }, 2000);
-          } else {
-            throw new Error('복사 명령 실패');
-          }
-        } catch (err) {
-          console.error('클립보드 복사 실패:', err);
-          const originalHTML = copyBtn.innerHTML;
-          copyBtn.innerHTML = '복사 권한 없음';
-          setTimeout(() => { copyBtn.innerHTML = originalHTML; }, 2000);
-        }
-      });
-
-      // 캘린더 이동 (Join)
-      joinForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const newId = joinInput.value.trim().toUpperCase();
-        if (newId) {
-          calendarId = newId;
-          displayCalendarId.textContent = calendarId;
-          joinInput.value = '';
-          
-          // iframe 샌드박스 환경에서는 history 조작이 막혀있으므로 예외 처리 추가
-          try {
-            window.history.pushState({}, '', `${window.location.pathname}?id=${newId}`);
-          } catch (err) {
-            console.warn('현재 보안 환경에서는 URL 업데이트가 제한됩니다 (기능은 정상 동작).', err);
-          }
-
-          listenToEvents(); // 새로운 캘린더 데이터 불러오기
-        }
-      });
-
       // 모달 닫기
       closeModalBtn.addEventListener('click', closeModal);
       eventModal.addEventListener('click', (e) => {
         if (e.target === eventModal) closeModal(); // 배경 클릭 시 닫기
       });
 
-      // 입력창 활성화 상태 관리
-      newEventText.addEventListener('input', (e) => {
-        submitEventBtn.disabled = !e.target.value.trim();
-      });
-
       // 일정 추가 제출
       addEventForm.addEventListener('submit', async (e) => {
         e.preventDefault();
+        
+        if (!currentUser) {
+          showToast('데이터베이스에 연결되지 않았습니다. (Firebase 설정을 확인하세요)');
+          return;
+        }
+
         const text = newEventText.value.trim();
-        if (!currentUser || !text || !selectedDate) return;
+        if (!text) {
+          showToast('일정 내용을 입력해주세요.');
+          newEventText.focus();
+          return;
+        }
+        if (!selectedDate) return;
 
         try {
-          const eventsRef = collection(db, 'artifacts', appId, 'public', 'data', `shared_cal_${calendarId}`);
+          submitEventBtn.disabled = true;
+          submitEventBtn.innerHTML = '<i class="ph ph-spinner animate-spin text-xl"></i>';
+
+          const eventsRef = collection(db, 'artifacts', appId, 'public', 'data', `shared_cal_${fixedCalendarId}`);
           await addDoc(eventsRef, {
             date: selectedDate,
             text: text,
@@ -506,11 +489,14 @@
             createdAt: new Date().toISOString(),
             creatorId: currentUser.uid
           });
+          
           newEventText.value = '';
-          submitEventBtn.disabled = true;
-          // 선택된 스티커는 그대로 유지
         } catch (error) {
           console.error("일정 추가 에러:", error);
+          showToast('일정 추가 중 오류가 발생했습니다.');
+        } finally {
+          submitEventBtn.disabled = false;
+          submitEventBtn.innerHTML = '<i class="ph ph-plus text-xl font-bold"></i>';
         }
       });
     };
